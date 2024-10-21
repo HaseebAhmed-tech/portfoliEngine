@@ -20,6 +20,7 @@ model User {
   // resume Resume? 
   socials Social?
   stats Stat[]
+  services Service[]
   }
 
 
@@ -44,4 +45,17 @@ model Stat{
   updatedAt DateTime @updatedAt
 
   @@unique([userId, text])
+}
+
+model Service{
+  id Int @id @default(autoincrement())
+  user User? @relation(fields: [userId], references: [id])
+  userId Int?
+  title String
+  description String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, title])
+
 }
