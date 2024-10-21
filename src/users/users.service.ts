@@ -32,6 +32,7 @@ export class UsersService {
       include: {
         socials: true,
         stats: true,
+        services: true,
       },
     });
   }

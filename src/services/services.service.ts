@@ -14,6 +14,10 @@ export class ServicesService {
     return this.prisma.service.findMany();
   }
 
+  findAllByUserId(userId: number) {
+    return this.prisma.service.findMany({ where: { userId } });
+  }
+
   findOne(id: number) {
     return this.prisma.service.findUnique({ where: { id } });
   }
