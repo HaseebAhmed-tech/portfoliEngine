@@ -25,8 +25,8 @@ export class ServicesController {
 
   @Post()
   @ApiBearerAuth()
-  @ApiCreatedResponse({ type: CreateServiceDto })
-  create(@Body() createServiceDto: CreateServiceDto) {
+  @ApiCreatedResponse({ type: [CreateServiceDto], isArray: true })
+  create(@Body() createServiceDto: CreateServiceDto[]) {
     return this.servicesService.create(createServiceDto);
   }
 

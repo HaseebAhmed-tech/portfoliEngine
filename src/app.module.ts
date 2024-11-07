@@ -9,7 +9,14 @@ import { StatsModule } from './stats/stats.module';
 import { ServicesModule } from './services/services.module';
 
 @Module({
-  imports: [PrismaModule, UsersModule, SocialsModule, StatsModule, AuthModule, ServicesModule],
+  imports: [
+    PrismaModule,
+    UsersModule,
+    SocialsModule,
+    StatsModule,
+    AuthModule,
+    ServicesModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
