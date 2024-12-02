@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { JsonValue } from '@prisma/client/runtime/library';
 import {
   IsEmail,
   IsNotEmpty,
@@ -6,6 +7,7 @@ import {
   MaxLength,
   MinLength,
   IsOptional,
+  IsArray,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -40,4 +42,8 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   designation: string;
+
+  @ApiProperty({required: false, nullable:true, type: [Object]})
+  @IsArray()
+  stats: JsonValue
 }

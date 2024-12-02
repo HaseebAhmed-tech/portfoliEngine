@@ -19,7 +19,7 @@ model User {
   updatedAt DateTime @updatedAt
   // resume Resume? 
   socials Social?
-  stats Stat[]
+  stats Json?
   services Service[]
   }
 
@@ -37,14 +37,13 @@ model Social{
 
 model Stat{
   id Int @id @default(autoincrement())
-  user User? @relation(fields: [userId], references: [id])
-  userId Int? 
+  // user User? @relation(fields: [userId], references: [id])
+  // userId Int? 
   num Int
   text String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([userId, text])
 }
 
 model Service{

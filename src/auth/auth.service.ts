@@ -56,4 +56,6 @@ export class AuthService {
       userId: newUser.id,
     };
   }
+
 }
+

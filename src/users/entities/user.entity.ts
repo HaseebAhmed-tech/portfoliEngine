@@ -1,6 +1,7 @@
 import { User } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
+import { JsonValue } from '@prisma/client/runtime/library';
 
 export class UserEntity implements User {
   constructor(partial: Partial<UserEntity>) {
@@ -33,4 +34,7 @@ export class UserEntity implements User {
 
   @ApiProperty()
   designation: string;
+
+  @ApiProperty()
+  stats: JsonValue;
 }
