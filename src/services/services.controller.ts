@@ -18,6 +18,7 @@ import {
   ApiOkResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger';
+import { ServiceEntity } from './entities/service.entity';
 @Controller('services')
 @ApiTags('Services')
 export class ServicesController {
@@ -25,57 +26,54 @@ export class ServicesController {
 
   @Post()
   @ApiBearerAuth()
-  @ApiCreatedResponse({ type: [CreateServiceDto], isArray: true })
-  create(@Body() createServiceDto: CreateServiceDto[]) {
-    return this.servicesService.create(createServiceDto);
+  @ApiCreatedResponse({ type: CreateServiceDto})
+  async create(@Body() createServiceDto: CreateServiceDto) {
+    return new ServiceEntity(await this.servicesService.create(createServiceDto));
   }
 
   @Get()
   @ApiBearerAuth()
-  @ApiResponse({ type: [CreateServiceDto], isArray: true })
-  findAll() {
-    return this.servicesService.findAll();
+  @ApiResponse({ type: [CreateServiceDto]})
+  async findAll() {
+    const services = await this.servicesService.findAll()
+    return services.map( (service)=> new ServiceEntity(service) );
   }
 
   @Get(':id')
   @ApiBearerAuth()
   @ApiOkResponse({ type: CreateServiceDto })
-  findOne(@Param('id', ParseIntPipe) id: string) {
-    return this.servicesService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return new  ServiceEntity(await this.servicesService.findOneById(id));
   }
 
   @Get(':userId')
   @ApiBearerAuth()
-  @ApiOkResponse({ type: [CreateServiceDto], isArray: true })
-  findAllByUserId(@Param('userId', ParseIntPipe) userId: number) {
-    return this.servicesService.findAllByUserId(userId);
+  @ApiOkResponse({type: CreateServiceDto})
+  async findOneByUserId(@Param('userId', ParseIntPipe) userId: number){
+    return new ServiceEntity(await this.servicesService.findOneByUserId(userId))
   }
 
-  @Get(':userId/:service')
-  @ApiBearerAuth()
-  @ApiOkResponse({ type: CreateServiceDto })
-  findOneByName(
-    @Param('userId', ParseIntPipe) userId: number,
-    @Param('service') service: string,
-  ) {
-    return this.servicesService.findOneByName(userId, service);
-  }
-
-  @Patch(':userId/:service')
+  @Patch(':userId')
   @ApiBearerAuth()
   @ApiOkResponse({ type: UpdateServiceDto })
-  update(
+  async update(
     @Param('userId', ParseIntPipe) userId: number,
-    @Param('service') service: string,
     @Body() updateServiceDto: UpdateServiceDto,
   ) {
-    return this.servicesService.update(userId, service, updateServiceDto);
+    return new ServiceEntity(await this.servicesService.update(userId, updateServiceDto));
   }
 
   @Delete(':userId')
   @ApiBearerAuth()
   @ApiOkResponse({ type: CreateServiceDto })
-  remove(@Param('userId', ParseIntPipe) userId: number) {
-    return this.servicesService.removeByUserId(userId);
+  async remove(@Param('userId', ParseIntPipe) userId: number) {
+    return new ServiceEntity(await this.servicesService.removeByUserId(userId));
+  }
+
+  @Delete(':id')
+  @ApiResponse({type: CreateServiceDto})
+  @ApiBearerAuth()
+  async removeById(@Param('id', ParseIntPipe) id: number){
+    return new ServiceEntity(await this.servicesService.removeById(id))
   }
 }

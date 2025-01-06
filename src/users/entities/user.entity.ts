@@ -37,4 +37,5 @@ export class UserEntity implements User {
 
   @ApiProperty()
   stats: JsonValue;
+  
 }

@@ -1,6 +1,7 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateUserDto } from './create-user.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { JsonValue } from '@prisma/client/runtime/library';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @ApiProperty({ required: true })
@@ -20,4 +21,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
 
   @ApiProperty({ required: true })
   designation: string;
+
+  @ApiProperty({required: false})
+  stats?: JsonValue;
 }

@@ -2,51 +2,52 @@ import { Injectable } from '@nestjs/common';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { JsonArray } from '@prisma/client/runtime/library';
 
 @Injectable()
 export class ServicesService {
   constructor(private prisma: PrismaService) {}
-  create(createServiceDto: CreateServiceDto[]) {
-    return this.prisma.service.createManyAndReturn({ data: createServiceDto });
+  create(createServiceDto: CreateServiceDto) {
+    return this.prisma.service.create({ data: createServiceDto });
   }
 
   findAll() {
     return this.prisma.service.findMany();
   }
 
-  findAllByUserId(userId: number) {
-    return this.prisma.service.findMany({ where: { userId } });
-  }
-
-  findOne(id: number) {
-    return this.prisma.service.findUnique({ where: { id } });
-  }
-
-  findOneByName(userId: number, service: string) {
+  findOneById(id: number) {
     return this.prisma.service.findUnique({
       where: {
-        userId_title: {
-          userId: userId,
-          title: service,
-        },
+        id: id
+      },
+    });
+  }
+  findOneByUserId(userId: number) {
+    return this.prisma.service.findUnique({
+      where: {
+        userId: userId
       },
     });
   }
 
-  update(userId: number, title: string, updateServiceDto: UpdateServiceDto) {
-    return this.prisma.service.update({
-      where: { userId_title: { userId: userId, title: title } },
-      data: updateServiceDto,
-    });
-  }
-
-  removeByName(userId: number, service: string) {
-    return this.prisma.service.delete({
-      where: { userId_title: { userId: userId, title: service } },
+  update(userId: number, updateServiceDto: UpdateServiceDto) {
+    return this.prisma.service.upsert({
+      where: { userId: userId },
+      update: updateServiceDto, // Updates if the record exists
+      create: { userId: userId, ...updateServiceDto }, // Creates if the record does not exist
     });
   }
 
   removeByUserId(userId: number) {
-    return this.prisma.service.deleteMany({ where: { userId } });
+    return this.prisma.service.delete({
+      where: { userId: userId },
+    });
   }
+
+  removeById(id: number){
+    return this.prisma.service.delete({
+      where: {id: id}
+    })
+  }
+
 }

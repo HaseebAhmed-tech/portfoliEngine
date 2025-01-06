@@ -1,14 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsInt } from 'class-validator';
+import { JsonValue } from '@prisma/client/runtime/library';
+import { IsInt, IsJSON } from 'class-validator';
 
 export class CreateServiceDto {
-  @ApiProperty({ required: true })
-  @IsString()
-  title: string;
-
-  @ApiProperty({ required: false, nullable: true })
-  @IsString()
-  description: string;
+  @ApiProperty({ required: false, nullable:true })
+  @IsJSON()
+  services_list : JsonValue;
 
   @ApiProperty({ required: false, nullable: true })
   @IsInt()
