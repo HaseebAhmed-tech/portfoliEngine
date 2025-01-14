@@ -17,7 +17,7 @@ model User {
   designation String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  // resume Resume? 
+  resume Resume?
   socials Social?
   stats Json?
   services Service?
@@ -51,6 +51,58 @@ model Service{
   user User? @relation(fields: [userId], references: [id])
   userId Int? @unique
   services_list Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Resume{
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int @unique
+  experience_list Experience?
+  education_list Education?
+  skills_list Skill?
+  about_me About?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Experience{
+  id Int @id @default(autoincrement())
+  resume Resume? @relation(fields: [resumeId], references: [userId])
+  resumeId Int @unique
+  experience_list Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Education{
+  id Int @id @default(autoincrement())
+  resume Resume? @relation(fields: [resumeId], references: [userId])
+  resumeId Int @unique
+  education_list Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Skill{
+  id Int @id @default(autoincrement())
+  resume Resume? @relation(fields: [resumeId], references: [userId])
+  resumeId Int @unique
+  skills_list Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model About{
+  id Int @id @default(autoincrement())
+  resume Resume? @relation(fields: [resumeId], references: [userId])
+  resumeId Int @unique
+  name String?
+  experience String?
+  nationality String?
+  freelance String?
+  phone String?
+  github String?
+  email String?
+  languages String[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

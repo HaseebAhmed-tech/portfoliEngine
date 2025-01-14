@@ -7,6 +7,11 @@ import { AuthModule } from './auth/auth.module';
 import { SocialsModule } from './socials/socials.module';
 import { StatsModule } from './stats/stats.module';
 import { ServicesModule } from './services/services.module';
+import { ResumeModule } from './resume/resume.module';
+import { ExperienceModule } from './experience/experience.module';
+import { EducationModule } from './education/education.module';
+import { SkillModule } from './skill/skill.module';
+import { AboutModule } from './about/about.module';
 
 @Module({
   imports: [
@@ -16,6 +21,11 @@ import { ServicesModule } from './services/services.module';
     StatsModule,
     AuthModule,
     ServicesModule,
+    ResumeModule,
+    ExperienceModule,
+    EducationModule,
+    SkillModule,
+    AboutModule,
   ],
   controllers: [AppController],
   providers: [AppService],
